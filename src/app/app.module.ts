@@ -3,25 +3,34 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { AngularFireModule } from "angularfire2";
-import { firebaseConfig } from "../environments/config";
-import { AngularFirestoreModule } from "angularfire2/firestore";
-import { AngularFireAuthModule } from "angularfire2/auth";
-import { AngularFireStorageModule } from "angularfire2/storage";
+import { AngularFireModule } from 'angularfire2';
+import { firebaseConfig } from '../environments/config';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { PuzzleListComponent } from './components/puzzle-list/puzzle-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StreetviewPanoramaComponent } from './components/streetview-panorama/streetview-panorama.component';
-import { StreetViewService } from "./services/street-view/street-view.service";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { LevenshteinService } from "./services/levenshtein/levenshtein.service";
-import {MatButtonModule, MatCheckboxModule, MatIconModule, MatMenuModule, MatToolbarModule} from "@angular/material";
-import { RouterModule } from "@angular/router";
+import { StreetViewService } from './services/street-view/street-view.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LevenshteinService } from './services/levenshtein/levenshtein.service';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatFormFieldModule,
+  MatInputModule,
+} from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { LoginViewComponent } from './views/login-view/login-view.component';
 import { CreatePuzzleViewComponent } from './views/create-puzzle-view/create-puzzle-view.component';
 import { PageNotFoundViewComponent } from './views/page-not-found-view/page-not-found-view.component';
 import { PlayPuzzleViewComponent } from './views/play-puzzle-view/play-puzzle-view.component';
 import { HomeViewComponent } from './views/home-view/home-view.component';
-import {routes} from "./app.routes";
+import { routes } from './app.routes';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -49,8 +58,11 @@ import {routes} from "./app.routes";
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
 
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   providers: [StreetViewService, LevenshteinService],
   bootstrap: [AppComponent]
