@@ -1,0 +1,22 @@
+
+
+<mat-toolbar class="mat-elevation-z6" color="primary">
+  <span (click)="router.navigate(['/'])">Street View Puzzle</span>
+
+  <span class="spacer"></span>
+  <span *ngIf="afAuth.authState | async as user; else showLogin">
+    {{ user.displayName }}!
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #menu>
+      <button mat-menu-item (click)="logout()" >Kilépés</button>
+    </mat-menu>
+  </span>
+  <ng-template #showLogin>
+    <button mat-raised-button color="accent" (click)="router.navigate(['/login'])">
+      Sign in
+    </button>
+
+  </ng-template>
+</mat-toolbar>
