@@ -5,7 +5,7 @@
 
   <span class="spacer"></span>
   <span *ngIf="afAuth.authState | async as user; else showLogin">
-    {{ user.displayName }}!
+    {{ user.displayName || user.email }}
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>person</mat-icon>
     </button>

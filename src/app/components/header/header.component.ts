@@ -15,23 +15,6 @@ export class HeaderComponent implements OnInit {
     public router: Router
   ) {}
 
-
-  isUserLoggedIn() {
-    return false;
-  }
-  isUserNotLoggedIn () {
-    return false;;
-  }
-
-  loginWithGoogle() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
-  loginWithFacebook() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
-  }
-  loginWithEmailAndPassword() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.EmailAuthProvider());
-  }
   logout() {
     this.afAuth.auth.signOut();
   }

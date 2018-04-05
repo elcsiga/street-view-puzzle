@@ -1,32 +1,16 @@
-<div class="container">
+<div class="g-page-container">
 
-  <h1>Sign in</h1>
+  <h3>Sign in</h3>
 
-  <div class="block">
-    <p>
-      <button mat-raised-button color="primary" (click)="loginWithGoogle()">Sign in with Google</button>
-    </p>
-    <p>
-      <button mat-raised-button color="primary" (click)="loginWithFacebook()">Sign in with Facebook</button>
-    </p>
-  </div>
+  <p>
+    <button mat-raised-button color="primary" (click)="loginWithGoogle()">Sign in with Google</button>
+  </p>
+  <p>
+    <button mat-raised-button color="primary" (click)="loginWithFacebook()">Sign in with Facebook</button>
+  </p>
 
-  <div class="block">
-    <div>
-      <mat-form-field>
-        <input type="email" matInput placeholder="email"
-               name="username" [(ngModel)]="model.username" #username="ngModel" required >
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
-        <input type="email" matInput placeholder="password"
-               name="password" [(ngModel)]="model.password" #password="ngModel" required >
-      </mat-form-field>
-    </div>
-    <p>
-      <button mat-button color="primary" (click)="loginWithEmailAndPassword()">Sign in</button>
-    </p>
-  </div>
+  <p>
+    <a href="#" routerLink="/login/email">Sign in with email and password</a>
+  </p>
 
 </div>

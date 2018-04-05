@@ -22,6 +22,7 @@ import {
   MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSnackBarModule,
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { LoginViewComponent } from './views/login-view/login-view.component';
@@ -31,6 +32,9 @@ import { PlayPuzzleViewComponent } from './views/play-puzzle-view/play-puzzle-vi
 import { HomeViewComponent } from './views/home-view/home-view.component';
 import { routes } from './app.routes';
 import {FormsModule} from '@angular/forms';
+import { LoginEmailViewComponent } from './views/login-email-view/login-email-view.component';
+import { RegisterViewComponent } from './views/register-view/register-view.component';
+import {NotificationsService} from './services/notifications/notifications.service';
 
 
 @NgModule({
@@ -43,7 +47,9 @@ import {FormsModule} from '@angular/forms';
     CreatePuzzleViewComponent,
     PageNotFoundViewComponent,
     PlayPuzzleViewComponent,
-    HomeViewComponent
+    HomeViewComponent,
+    LoginEmailViewComponent,
+    RegisterViewComponent
   ],
   imports: [
     BrowserModule,
@@ -60,11 +66,16 @@ import {FormsModule} from '@angular/forms';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
 
     RouterModule.forRoot(routes),
     FormsModule
   ],
-  providers: [StreetViewService, LevenshteinService],
+  providers: [
+    StreetViewService,
+    LevenshteinService,
+    NotificationsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
