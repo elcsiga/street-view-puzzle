@@ -1,7 +1,7 @@
 
 
 <mat-toolbar class="mat-elevation-z6" color="primary">
-  <span (click)="router.navigate(['/'])">Street View Puzzle</span>
+  <span (click)="router.navigate(['/'])"> <!--Street View Puzzle--></span>
 
   <span class="spacer"></span>
   <span *ngIf="afAuth.authState | async as user; else showLogin">

@@ -22,7 +22,7 @@ import {
   MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSnackBarModule,
+  MatSnackBarModule, MatStepperModule,
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { LoginViewComponent } from './views/login-view/login-view.component';
@@ -31,10 +31,10 @@ import { PageNotFoundViewComponent } from './views/page-not-found-view/page-not-
 import { PlayPuzzleViewComponent } from './views/play-puzzle-view/play-puzzle-view.component';
 import { HomeViewComponent } from './views/home-view/home-view.component';
 import { routes } from './app.routes';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { LoginEmailViewComponent } from './views/login-email-view/login-email-view.component';
 import { RegisterViewComponent } from './views/register-view/register-view.component';
-import {NotificationsService} from './services/notifications/notifications.service';
+import { NotificationsService } from './services/notifications/notifications.service';
 
 
 @NgModule({
@@ -67,6 +67,7 @@ import {NotificationsService} from './services/notifications/notifications.servi
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
+    MatStepperModule,
 
     RouterModule.forRoot(routes),
     FormsModule

@@ -1,3 +1,62 @@
-<p>
-  create-puzzle-view works!
-</p>
+
+<h1>Create</h1>
+
+<mat-vertical-stepper [linear]="false">
+  <mat-step>
+    <ng-template matStepLabel>Enter an address to start with</ng-template>
+
+    <mat-form-field>
+      <input type="text" matInput placeholder="Address"
+             name="address" [(ngModel)]="initialAddress" #address="ngModel" required />
+    </mat-form-field>
+    <p>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </p>
+  </mat-step>
+  <mat-step >
+    <ng-template matStepLabel>Select position</ng-template>
+    <p>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </p>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Q&A</ng-template>
+
+    <div>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Title"
+               [(ngModel)]="puzzle.title" required />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Question"
+               [(ngModel)]="puzzle.question" required />
+      </mat-form-field>
+    </div>
+
+
+    <div *ngFor="let answer of puzzle.answers; let i = index; trackBy: trackByFn;">
+      <mat-form-field >
+        <input type="text" matInput placeholder="Answer"
+               [(ngModel)]="puzzle.answers[i]" required />
+      </mat-form-field>
+      <button *ngIf="i > 0" mat-button href="#" (click)="removeAnswer(i)">Remove</button>
+
+    </div>
+
+    <div>
+      Puzzle cna have more acceptable answers.
+      <a mat-button href="#" (click)="addAnswer($event)">Add answer!</a>
+    </div>
+
+    <p>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary">Create</button>
+    </p>
+  </mat-step>
+</mat-vertical-stepper>
+
+<pre>{{ puzzle | json}}</pre>
