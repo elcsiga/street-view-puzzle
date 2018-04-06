@@ -5,6 +5,7 @@ import { } from '@types/googlemaps';
 import { StreetViewService } from '../../services/street-view/street-view.service';
 import { NotificationsService } from '../../services/notifications/notifications.service';
 import {MatHorizontalStepper, MatStep} from '@angular/material';
+import {listenToElementOutputs} from '@angular/core/src/view/element';
 
 @Component({
   selector: 'app-create-puzzle-view',
@@ -14,6 +15,8 @@ import {MatHorizontalStepper, MatStep} from '@angular/material';
 export class CreatePuzzleViewComponent implements OnInit {
 
   initialAddress = '';
+  panoramaFoundOnAddress = false;
+
   addressSearchInProgress = false;
 
   puzzle: Puzzle = {
@@ -75,6 +78,12 @@ export class CreatePuzzleViewComponent implements OnInit {
     return index;
   }
 
+  isQAcomplete(): boolean {
+    return this.puzzle.title.length && this.puzzle.question.length
+      && this.puzzle.answers.reduce( (valid, answer) => valid && !!answer.length, true);
+
+  }
+
   searchAddress() {
     this.addressSearchInProgress = true;
     this.streetViewService.searchPos(this.initialAddress)
@@ -86,11 +95,13 @@ export class CreatePuzzleViewComponent implements OnInit {
           position: pos
         };
 
+        this.panoramaFoundOnAddress = true;
         this.stepper.next();
       })
       .catch( () => {
         this.addressSearchInProgress = false;
-        this.notificationsService.error('Cannot find panorama on that address.')
+        this.panoramaFoundOnAddress = false;
+        this.notificationsService.error('Cannot find panorama on that address.');
       });
 
   }

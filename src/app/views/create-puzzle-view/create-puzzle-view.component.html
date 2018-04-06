@@ -3,9 +3,9 @@
 
     <h1>Create</h1>
 
-    <mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-horizontal-stepper [linear]="true" #stepper>
 
-      <mat-step xstep1>
+      <mat-step [completed] = "panoramaFoundOnAddress">
         <ng-template matStepLabel>Address</ng-template>
 
         <p>Enter an address to start width.</p>
@@ -30,7 +30,7 @@
         </p>
       </mat-step>
 
-      <mat-step xstep2>
+      <mat-step [completed] = "panoramaFoundOnAddress">
         <ng-template matStepLabel>Position</ng-template>
 
         <div class="pano">
@@ -54,7 +54,7 @@
         </p>
       </mat-step>
 
-      <mat-step xstep3>
+      <mat-step [completed] = "panoramaFoundOnAddress && isQAcomplete()">
         <ng-template matStepLabel>Q&A</ng-template>
 
         <div>
@@ -93,7 +93,8 @@
             <mat-icon>navigate_before</mat-icon>
             Back
           </button>
-          <button mat-raised-button color="primary">Create</button>
+          <button mat-raised-button color="primary"
+            [disabled]="!isQAcomplete()">Create</button>
         </p>
       </mat-step>
     </mat-horizontal-stepper>
