@@ -1,35 +1,27 @@
-import {Component, Input} from '@angular/core';
-import {googleMapsApiKey, googleStreetViewImageApiKey} from "../environments/config";
-import {extendedStreetViewPanoramaOptions} from "./types";
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+  mobileQuery: MediaQueryList;
 
-  panoramaOptions: extendedStreetViewPanoramaOptions = {
-    position: { lat: 42.345573, lng: -71.098326 },
-    pov: { heading: 0, pitch: 0 },
-    disableDefaultUI: true,
-    showRoadLabels: false
-  };
+  private _mobileQueryListener: () => void;
 
-  apiKey = googleMapsApiKey;
-
-  private getImageUrl(lat, lng, heading, pitch, apiKey) {
-    return `https://maps.googleapis.com/maps/api/streetview?size=640x480&location=${lat},${lng}&heading=${heading}&pitch=${pitch}&key=${apiKey}`;
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  testImgUrl(opts: extendedStreetViewPanoramaOptions) {
-    return this.getImageUrl(
-      opts.position.lat,
-      opts.position.lng,
-      opts.pov.heading,
-      opts.pov.pitch,
-      googleStreetViewImageApiKey
-    );
+  ngOnInit() {
 
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 }

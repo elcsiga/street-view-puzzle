@@ -1,97 +1,104 @@
+<div class="g-page-container">
+  <div class="g-content">
 
-<h1>Create</h1>
+    <h1>Create</h1>
 
-<mat-vertical-stepper [linear]="false" #stepper>
+    <mat-horizontal-stepper [linear]="false" #stepper>
 
-  <mat-step>
-    <ng-template matStepLabel>Address</ng-template>
+      <mat-step xstep1>
+        <ng-template matStepLabel>Address</ng-template>
 
-    <p>Enter an address to start width.</p>
+        <p>Enter an address to start width.</p>
 
-    <p *ngIf="!addressSearchInProgress">
-      <mat-form-field>
-        <input type="text" matInput placeholder="Address"
-               name="address" [(ngModel)]="initialAddress" #address="ngModel" required />
-      </mat-form-field>
-    </p>
+        <p *ngIf="!addressSearchInProgress">
+          <mat-form-field class="fullWidth">
+          <input type="text" matInput placeholder="Address"
+                   name="address" [(ngModel)]="initialAddress" #address="ngModel" required/>
+          </mat-form-field>
+        </p>
 
-    <p *ngIf="addressSearchInProgress">
-      <mat-spinner diameter="60"></mat-spinner>
-    </p>
-
-
-    <p>
-      <button mat-raised-button color="primary" (click)="searchAddress();">
-        Next <mat-icon>navigate_next</mat-icon>
-      </button>
-      <button mat-raised-button color="primary" matStepperNext>
-        Next <mat-icon>navigate_next</mat-icon>
-      </button>
-    </p>
-  </mat-step>
-
-  <mat-step >
-    <ng-template matStepLabel>Select position</ng-template>
-
-    <div class="pano">
-      <app-streetview-panorama
-        [apiKey]="apiKey"
-        [panoramaOptions]="panoramaOptions"
-        (positionChanged)="onPositionChanged($event)"
-        (povChanged)="onPovChanged($event)"
-      ></app-streetview-panorama>
-    </div>
-
-    <p>
-      <button mat-button matStepperPrevious>
-        <mat-icon>navigate_before</mat-icon> Back
-      </button>
-      <button mat-raised-button color="primary" matStepperNext>
-        Next <mat-icon>navigate_next</mat-icon>
-      </button>
-    </p>
-  </mat-step>
-
-  <mat-step>
-    <ng-template matStepLabel>Q&A</ng-template>
-
-    <div>
-      <mat-form-field>
-        <input type="text" matInput placeholder="Title"
-               [(ngModel)]="puzzle.title" required />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field>
-        <input type="text" matInput placeholder="Question"
-               [(ngModel)]="puzzle.question" required />
-      </mat-form-field>
-    </div>
+        <p *ngIf="addressSearchInProgress">
+          <mat-spinner diameter="60"></mat-spinner>
+        </p>
 
 
-    <div *ngFor="let answer of puzzle.answers; let i = index; trackBy: trackByFn;">
-      <mat-form-field >
-        <input type="text" matInput placeholder="Answer"
-               [(ngModel)]="puzzle.answers[i]" required />
-      </mat-form-field>
-      <button *ngIf="puzzle.answers.length > 1" mat-icon-button href="#" (click)="removeAnswer(i)">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </div>
+        <p class="buttons">
+          <button mat-raised-button color="primary" (click)="searchAddress();">
+            Next
+            <mat-icon>navigate_next</mat-icon>
+          </button>
+        </p>
+      </mat-step>
 
-    <div>
-      Puzzle cna have more acceptable answers.
-      <a mat-button href="#" (click)="addAnswer($event)">Add answer!</a>
-    </div>
+      <mat-step xstep2>
+        <ng-template matStepLabel>Position</ng-template>
 
-    <p>
-      <button mat-button matStepperPrevious>
-        <mat-icon>navigate_before</mat-icon> Back
-      </button>
-      <button mat-raised-button color="primary">Create</button>
-    </p>
-  </mat-step>
-</mat-vertical-stepper>
+        <div class="pano">
+          <app-streetview-panorama
+            [apiKey]="apiKey"
+            [panoramaOptions]="panoramaOptions"
+            (positionChanged)="onPositionChanged($event)"
+            (povChanged)="onPovChanged($event)"
+          ></app-streetview-panorama>
+        </div>
 
-<pre>{{ puzzle | json}}</pre>
+        <p class="buttons">
+          <button mat-button matStepperPrevious>
+            <mat-icon>navigate_before</mat-icon>
+            Back
+          </button>
+          <button mat-raised-button color="primary" matStepperNext>
+            Next
+            <mat-icon>navigate_next</mat-icon>
+          </button>
+        </p>
+      </mat-step>
+
+      <mat-step xstep3>
+        <ng-template matStepLabel>Q&A</ng-template>
+
+        <div>
+          <mat-form-field class="fullWidth">
+            <input type="text" matInput placeholder="Title"
+                   [(ngModel)]="puzzle.title" required/>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="fullWidth">
+            <input type="text" matInput placeholder="Question"
+                   [(ngModel)]="puzzle.question" required/>
+          </mat-form-field>
+        </div>
+
+        <div *ngFor="let answer of puzzle.answers; let i = index; trackBy: trackByFn;">
+          <mat-form-field class="fullWidth">
+            <input type="text" matInput placeholder="Answer"
+                   [(ngModel)]="puzzle.answers[i]" required/>
+
+            <button matSuffix *ngIf="i > 0" mat-icon-button href="#" (click)="removeAnswer(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+        </div>
+
+        <div>
+          Puzzle can have more acceptable answers.
+          <a mat-button href="#" (click)="addAnswer($event)">Add answer!</a>
+        </div>
+
+        <p class="buttons">
+          <button mat-button matStepperPrevious>
+            <mat-icon>navigate_before</mat-icon>
+            Back
+          </button>
+          <button mat-raised-button color="primary">Create</button>
+        </p>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+    <!-- <pre>{{ puzzle | json}}</pre>-->
+
+  </div>
+</div>

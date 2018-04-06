@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {extendedStreetViewPanoramaOptions, Pos, Puzzle} from '../../types';
 import { googleMapsApiKey } from '../../../environments/config';
 import { } from '@types/googlemaps';
 import { StreetViewService } from '../../services/street-view/street-view.service';
 import { NotificationsService } from '../../services/notifications/notifications.service';
+import {MatHorizontalStepper, MatStep} from '@angular/material';
 
 @Component({
   selector: 'app-create-puzzle-view',
   templateUrl: './create-puzzle-view.component.html',
-  styleUrls: ['./create-puzzle-view.component.css']
+  styleUrls: ['./create-puzzle-view.component.scss']
 })
 export class CreatePuzzleViewComponent implements OnInit {
 
@@ -26,6 +27,12 @@ export class CreatePuzzleViewComponent implements OnInit {
       pitch: 0,
     }
   };
+
+
+  @ViewChild('stepper') stepper: MatHorizontalStepper;
+  @ViewChild('step1') step1: MatStep;
+  @ViewChild('step2') step2: MatStep;
+  @ViewChild('step3') step3: MatStep;
 
 
   panoramaOptions: extendedStreetViewPanoramaOptions = {
@@ -60,7 +67,7 @@ export class CreatePuzzleViewComponent implements OnInit {
     this.puzzle.answers.push('');
   }
   removeAnswer(index) {
-    if (this.puzzle.answers.length > 1) {
+    if (index > 0) {
       this.puzzle.answers.splice(index, 1);
     }
   }
@@ -78,6 +85,8 @@ export class CreatePuzzleViewComponent implements OnInit {
           ...this.panoramaOptions,
           position: pos
         };
+
+        this.stepper.next();
       })
       .catch( () => {
         this.addressSearchInProgress = false;

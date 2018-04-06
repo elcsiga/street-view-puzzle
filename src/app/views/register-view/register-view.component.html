@@ -1,28 +1,29 @@
 <div class="g-page-container">
+  <div class="g-content">
 
-  <h1>Register</h1>
+    <h1>Register</h1>
 
-  <div>
-    <mat-form-field>
-      <input type="email" matInput placeholder="email"
-             name="email" [(ngModel)]="user.email" #email="ngModel" required />
-    </mat-form-field>
+    <div>
+      <mat-form-field>
+        <input type="email" matInput placeholder="email"
+               name="email" [(ngModel)]="user.email" #email="ngModel" required/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <input type="password" matInput placeholder="password"
+               name="password" [(ngModel)]="user.password" #password="ngModel" required/>
+      </mat-form-field>
+    </div>
+
+    <p>
+      <button mat-raised-button color="primary" (click)="registerWithEmailAndPassword()">Register</button>
+    </p>
+
+    <p>
+      Already have an account?
+      <a mat-button href="#" routerLink="/login/email">Sign in!</a>
+    </p>
+
   </div>
-  <div>
-    <mat-form-field>
-      <input type="password" matInput placeholder="password"
-             name="password" [(ngModel)]="user.password" #password="ngModel" required />
-    </mat-form-field>
-  </div>
-
-  <p>
-    <button mat-raised-button color="primary" (click)="registerWithEmailAndPassword()">Register</button>
-  </p>
-
-
-  <p>
-    Already have an account?
-    <a mat-button href="#" routerLink="/login/email">Sign in!</a>
-  </p>
-
 </div>
