@@ -1,25 +1,57 @@
 
 <h1>Create</h1>
 
-<mat-vertical-stepper [linear]="false">
-  <mat-step>
-    <ng-template matStepLabel>Enter an address to start with</ng-template>
+<mat-vertical-stepper [linear]="false" #stepper>
 
-    <mat-form-field>
-      <input type="text" matInput placeholder="Address"
-             name="address" [(ngModel)]="initialAddress" #address="ngModel" required />
-    </mat-form-field>
+  <mat-step>
+    <ng-template matStepLabel>Address</ng-template>
+
+    <p>Enter an address to start width.</p>
+
+    <p *ngIf="!addressSearchInProgress">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Address"
+               name="address" [(ngModel)]="initialAddress" #address="ngModel" required />
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="addressSearchInProgress">
+      <mat-spinner diameter="60"></mat-spinner>
+    </p>
+
+
     <p>
-      <button mat-raised-button color="primary" matStepperNext>Next</button>
+      <button mat-raised-button color="primary" (click)="searchAddress();">
+        Next <mat-icon>navigate_next</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" matStepperNext>
+        Next <mat-icon>navigate_next</mat-icon>
+      </button>
     </p>
   </mat-step>
+
   <mat-step >
     <ng-template matStepLabel>Select position</ng-template>
+
+    <div class="pano">
+      <app-streetview-panorama
+        [apiKey]="apiKey"
+        [panoramaOptions]="panoramaOptions"
+        (positionChanged)="onPositionChanged($event)"
+        (povChanged)="onPovChanged($event)"
+      ></app-streetview-panorama>
+    </div>
+
     <p>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-raised-button color="primary" matStepperNext>Next</button>
+      <button mat-button matStepperPrevious>
+        <mat-icon>navigate_before</mat-icon> Back
+      </button>
+      <button mat-raised-button color="primary" matStepperNext>
+        Next <mat-icon>navigate_next</mat-icon>
+      </button>
     </p>
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Q&A</ng-template>
 
@@ -43,8 +75,9 @@
         <input type="text" matInput placeholder="Answer"
                [(ngModel)]="puzzle.answers[i]" required />
       </mat-form-field>
-      <button *ngIf="i > 0" mat-button href="#" (click)="removeAnswer(i)">Remove</button>
-
+      <button *ngIf="puzzle.answers.length > 1" mat-icon-button href="#" (click)="removeAnswer(i)">
+        <mat-icon>cancel</mat-icon>
+      </button>
     </div>
 
     <div>
@@ -53,7 +86,9 @@
     </div>
 
     <p>
-      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperPrevious>
+        <mat-icon>navigate_before</mat-icon> Back
+      </button>
       <button mat-raised-button color="primary">Create</button>
     </p>
   </mat-step>

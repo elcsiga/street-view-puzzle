@@ -22,7 +22,7 @@ import {
   MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSnackBarModule, MatStepperModule,
+  MatSnackBarModule, MatStepperModule, MatProgressSpinnerModule,
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { LoginViewComponent } from './views/login-view/login-view.component';
@@ -68,6 +68,7 @@ import { NotificationsService } from './services/notifications/notifications.ser
     MatInputModule,
     MatSnackBarModule,
     MatStepperModule,
+    MatProgressSpinnerModule,
 
     RouterModule.forRoot(routes),
     FormsModule

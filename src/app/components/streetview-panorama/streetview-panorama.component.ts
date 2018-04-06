@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import { } from '@types/googlemaps';
 
 @Component({
@@ -6,10 +6,11 @@ import { } from '@types/googlemaps';
   templateUrl: './streetview-panorama.component.html',
   styleUrls: ['./streetview-panorama.component.css']
 })
-export class StreetviewPanoramaComponent implements OnInit {
+export class StreetviewPanoramaComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
+  streetView: google.maps.StreetViewPanorama;
 
   @Input() panoramaOptions: google.maps.StreetViewPanoramaOptions = {
     position: { lat: 42.345573, lng: -71.098326 },
@@ -17,10 +18,18 @@ export class StreetviewPanoramaComponent implements OnInit {
   };
 
   @Input() apiKey: string = null;
+
+  @Output() positionChanged = new EventEmitter<google.maps.LatLng>();
+  @Output() povChanged = new EventEmitter<google.maps.StreetViewPov>();
+
   constructor() {
   }
 
   private loadScript(src, callback) {
+    if (typeof window['google'] !== 'undefined') {
+      console.log('Script already loaded.');
+      callback();
+    }
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = src;
@@ -31,19 +40,42 @@ export class StreetviewPanoramaComponent implements OnInit {
   }
 
   ngOnInit() {
-
     let url = 'https://maps.googleapis.com/maps/api/js';
-    if (this.apiKey)
+    if (this.apiKey) {
       url += '?key=' + this.apiKey;
-
-    console.log('zzzz', url);
+    }
 
     this.loadScript(url, () => {
-      const panorama = new google.maps.StreetViewPanorama(
+      console.log('Script loaded.');
+      this.streetView = new google.maps.StreetViewPanorama(
         this.gmapElement.nativeElement,
         this.panoramaOptions
       );
+
+      this.streetView.addListener('position_changed', () => {
+        if (this.positionChanged) {
+          this.positionChanged.emit(this.streetView.getPosition());
+        }
+      });
+
+      this.streetView.addListener('pov_changed', () => {
+        if (this.povChanged) {
+          this.povChanged.emit(this.streetView.getPov());
+        }
+      });
     });
+  }
+
+  ngOnChanges( changes: SimpleChanges) {
+    if (this.streetView && changes.panoramaOptions) {
+      this.streetView.setOptions(changes.panoramaOptions.currentValue);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.streetView) {
+      google.maps.event.clearInstanceListeners(this.streetView);
+    }
   }
 
 }
