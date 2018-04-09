@@ -1,0 +1,38 @@
+$puzzle-item-size: 170px;
+
+.puzzle-card {
+  position: relative;
+  width: $puzzle-item-size;
+  height: $puzzle-item-size;
+  border-radius: $puzzle-item-size / 2;
+  display: inline-block;
+  margin: 10px;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $puzzle-item-size;
+    height: $puzzle-item-size;
+    border-radius: $puzzle-item-size / 2;
+  }
+
+  > div {
+    opacity: 0;
+    transition: all .3s;
+
+    &:hover {
+      opacity: 1;
+    }
+    position: absolute;
+    text-align: center;
+    color: white;
+    line-height: $puzzle-item-size;
+    top: 0;
+    left: 0;
+    width: $puzzle-item-size;
+    height: $puzzle-item-size;
+    border-radius: $puzzle-item-size / 2;
+    background-color: rgba(0,0,0,.6);
+  }
+}

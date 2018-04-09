@@ -1,5 +1,7 @@
-<ul>
-  <li class="text" *ngFor="let puzzle of puzzles | async">
+<div *ngFor="let puzzle of puzzles | async" class="puzzle-card">
+  <img [src] = "getStaticImage(puzzle)" />
+  <div>
     {{puzzle.title}}
-  </li>
-</ul>
+  </div>
+</div>
+

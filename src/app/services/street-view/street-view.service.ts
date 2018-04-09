@@ -1,13 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Pos } from '../../types';
+import { Pos, Puzzle } from '../../types';
 import { } from '@types/googlemaps';
+import { googleStreetViewImageApiKey } from '../../../environments/config';
 
 @Injectable()
 export class StreetViewService {
 
   constructor() { }
 
-  searchPos(address: string): Promise<google.maps.LatLng> {
+  getStaticImageUrl(lat, lng, heading, pitch, apiKey) {
+    return `https://maps.googleapis.com/maps/api/streetview`
+      + `?size=480x480&location=${lat},${lng}&heading=${heading}&pitch=${pitch}&key=${apiKey}`;
+  }
+
+  getStaticImageUrlOf(puzzle: Puzzle) {
+    return this.getStaticImageUrl(
+      puzzle.pos.lat,
+      puzzle.pos.lng,
+      puzzle.pos.heading,
+      puzzle.pos.pitch,
+      googleStreetViewImageApiKey
+    );
+
+  }
+  searchPos(address: string): Promise<google.maps.StreetViewPanoramaData> {
 
     return new Promise((resolve, reject) => {
       if (!google) {
@@ -20,7 +36,7 @@ export class StreetViewService {
           const streetViewService = new google.maps.StreetViewService();
           streetViewService.getPanoramaByLocation(pos, 1000, (streetViewPanoramaData, streetViewStatus) => {
             if (streetViewStatus === google.maps.StreetViewStatus.OK) {
-              resolve(streetViewPanoramaData.location.latLng);
+              resolve(streetViewPanoramaData);
             } else {
               reject();
             }

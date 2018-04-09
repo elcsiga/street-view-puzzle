@@ -13,6 +13,24 @@
   width: 100%;
 }
 
+$avatar-size: 100px;
+
+.col1 {
+  display: inline-block;
+  width: $avatar-size;
+  margin-right: 10px;
+}
+
+.col2 {
+  display: inline-block;
+  width: calc( 100% - 10px - #{$avatar-size} );
+}
+
+.avatar {
+  width: $avatar-size;
+  height: $avatar-size;
+  border-radius: $avatar-size/2;
+}
 .cancelButton {
   position: absolute;
   right: 0;

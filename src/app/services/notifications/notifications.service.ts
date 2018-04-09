@@ -13,4 +13,10 @@ export class NotificationsService {
       duration: 3000
     });
   }
+
+  info( message: string ): void {
+    this.snackBar.open( message, null, {
+      duration: 3000
+    });
+  }
 }

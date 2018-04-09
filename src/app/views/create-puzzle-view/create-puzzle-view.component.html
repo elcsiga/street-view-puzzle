@@ -1,36 +1,46 @@
 <div class="g-page-container">
   <div class="g-content">
 
-    <h1>Create</h1>
+    <h1>Create puzzle</h1>
 
-    <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-horizontal-stepper [linear]="true">
 
-      <mat-step [completed] = "panoramaFoundOnAddress">
+      <mat-step [completed]="panoramaData">
         <ng-template matStepLabel>Address</ng-template>
 
-        <p>Enter an address to start width.</p>
-
-        <p *ngIf="!addressSearchInProgress">
+        <p>
+          A street view puzzle is a place on Google Street View
+          and a related question that the player have to answer.
+          Let's start by entering an address.
+        </p>
+        <p>
           <mat-form-field class="fullWidth">
-          <input type="text" matInput placeholder="Address"
-                   name="address" [(ngModel)]="initialAddress" #address="ngModel" required/>
+            <input #address matInput placeholder="Address" type="text"/>
+            <mat-hint>{{getAddressDescription()}}</mat-hint>
           </mat-form-field>
         </p>
 
         <p *ngIf="addressSearchInProgress">
-          <mat-spinner diameter="60"></mat-spinner>
+          <mat-spinner [diameter]="60"></mat-spinner>
         </p>
 
-
         <p class="buttons">
-          <button mat-raised-button color="primary" (click)="searchAddress();">
+          <button mat-raised-button color="primary"
+                  matStepperNext [disabled]="!panoramaData">
             Next
             <mat-icon>navigate_next</mat-icon>
           </button>
         </p>
       </mat-step>
 
-      <mat-step [completed] = "panoramaFoundOnAddress">
+      <mat-step [completed]="panoramaData">
+
+        <p>
+          Now let's walk and set the final position
+          and point of view that the player will see
+          for the first time.
+        </p>
+
         <ng-template matStepLabel>Position</ng-template>
 
         <div class="pano">
@@ -54,20 +64,48 @@
         </p>
       </mat-step>
 
-      <mat-step [completed] = "panoramaFoundOnAddress && isQAcomplete()">
+      <mat-step [completed]="panoramaData && isQAcomplete()">
         <ng-template matStepLabel>Q&A</ng-template>
 
-        <div>
-          <mat-form-field class="fullWidth">
-            <input type="text" matInput placeholder="Title"
-                   [(ngModel)]="puzzle.title" required/>
-          </mat-form-field>
+        <div class = "col1">
+          <img class="avatar" [src]="getStaticImage()" />
+        </div><div class = "col2">
+          <div>
+            <mat-form-field class="fullWidth">
+              <input type="text" matInput placeholder="Title"
+                     [(ngModel)]="puzzle.title" required/>
+              <mat-hint>e.g. 'The hidden village'</mat-hint>
+
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class="fullWidth">
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let tag of puzzle.tags" [selectable]="true"
+                          [removable]="true" (remove)="removeTag(tag)">
+                  {{tag}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Tags"
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="tagSeparatorCodes"
+                       [matChipInputAddOnBlur]="true"
+                       (matChipInputTokenEnd)="addTag($event)" />
+              </mat-chip-list>
+              <mat-hint>e.g. 'Hungary', 'village', 'easy', ...</mat-hint>
+            </mat-form-field>
+          </div>
         </div>
+
+
+
 
         <div>
           <mat-form-field class="fullWidth">
             <input type="text" matInput placeholder="Question"
                    [(ngModel)]="puzzle.question" required/>
+            <mat-hint>e.g. 'What is the name of that tiny village?'</mat-hint>
           </mat-form-field>
         </div>
 
@@ -75,6 +113,7 @@
           <mat-form-field class="fullWidth">
             <input type="text" matInput placeholder="Answer"
                    [(ngModel)]="puzzle.answers[i]" required/>
+            <mat-hint  *ngIf="i == 0">e.g. 'Roxmorts'</mat-hint>
 
             <button matSuffix *ngIf="i > 0" mat-icon-button href="#" (click)="removeAnswer(i)">
               <mat-icon>close</mat-icon>
@@ -93,13 +132,19 @@
             <mat-icon>navigate_before</mat-icon>
             Back
           </button>
-          <button mat-raised-button color="primary"
-            [disabled]="!isQAcomplete()">Create</button>
+          <button mat-raised-button color="warn"
+                  (click) = "savePuzzle()"
+                  [disabled]="!isQAcomplete() || puzzleCreationInProgress">Create puzzle
+          </button>
+        </p>
+
+        <p *ngIf="puzzleCreationInProgress">
+          <mat-spinner [diameter]="60"></mat-spinner>
         </p>
       </mat-step>
     </mat-horizontal-stepper>
 
-    <!-- <pre>{{ puzzle | json}}</pre>-->
+    <!--<pre>{{ puzzle | json}}</pre>-->
 
   </div>
 </div>
