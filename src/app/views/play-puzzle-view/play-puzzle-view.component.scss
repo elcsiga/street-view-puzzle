@@ -1,0 +1,47 @@
+
+@import '~@angular/material/theming';
+
+.pano {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    z-index: 10;
+    font-size: 16px;
+  }
+
+  .cancel {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+
+  .question {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.9);
+    color: white;
+    z-index: 10;
+    padding: 30px;
+    font-size: 20px;
+    font-weight: lighter;
+
+    button {
+      @include mat-elevation(24);
+      position: absolute;
+      top: calc( -56px / 2 );
+      right: calc( 56px / 2 );
+    }
+  }
+}

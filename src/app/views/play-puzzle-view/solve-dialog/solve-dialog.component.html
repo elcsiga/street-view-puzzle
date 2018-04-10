@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content *ngIf="!solved">
+  <p>{{data.question}}</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="answer">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions *ngIf="!solved">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button
+          color="primary"
+          (click) = "onSolve()"
+          cdkFocusInitial>Solve</button>
+</div>
+
+<div  mat-dialog-content *ngIf="solved">
+  <p>
+    {{data.question}}
+    <br />
+    <b>{{answer}}</b>
+  </p>
+
+  <div class="solved-icon">
+    <mat-icon>check_circle</mat-icon>
+  </div>
+
+</div>
+<div mat-dialog-actions *ngIf="solved">
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

@@ -1,0 +1,16 @@
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+}
+
+
+.solved-icon {
+  margin: 10px;
+  color: green;
+
+  .mat-icon {
+    @include mat-icon-size(60px);
+  }
+  text-align: center;
+}

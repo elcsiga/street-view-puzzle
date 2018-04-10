@@ -1,8 +1,25 @@
 
+<div class="pano" *ngIf="puzzle$ | async as puzzle">
+  <app-streetview-panorama
+    [apiKey]="apiKey"
+    [panoramaOptions]="panoramaOptions"
 
+  ></app-streetview-panorama>
 
-<div class="g-page-container">
-  <div class="g-content" *ngIf="puzzle$ | async as puzzle">
-    {{puzzle | json}}
+  <div class="title">{{puzzle.title}}</div>
+
+  <div class="question">
+    {{puzzle.question}}
+    <button mat-fab matTooltip="Solve puzzle" (click) = "openDialog(puzzle)">
+      <mat-icon aria-label="Solve puzzle">
+        done
+      </mat-icon>
+    </button>
   </div>
+
+
+  <button class="cancel" matTooltip="Back" routerLink="/" mat-icon-button>
+    <mat-icon aria-label="Back">clear</mat-icon>
+  </button>
+
 </div>

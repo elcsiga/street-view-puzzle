@@ -23,6 +23,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSnackBarModule, MatStepperModule, MatProgressSpinnerModule, MatSidenavModule, MatListModule, MatCardModule, MatChipsModule,
+  MatTooltipModule, MatDialogModule,
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { LoginViewComponent } from './views/login-view/login-view.component';
@@ -35,6 +36,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginEmailViewComponent } from './views/login-email-view/login-email-view.component';
 import { RegisterViewComponent } from './views/register-view/register-view.component';
 import { NotificationsService } from './services/notifications/notifications.service';
+import { SolveDialogComponent } from './views/play-puzzle-view/solve-dialog/solve-dialog.component';
 
 
 @NgModule({
@@ -49,7 +51,8 @@ import { NotificationsService } from './services/notifications/notifications.ser
     PlayPuzzleViewComponent,
     HomeViewComponent,
     LoginEmailViewComponent,
-    RegisterViewComponent
+    RegisterViewComponent,
+    SolveDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,9 +76,14 @@ import { NotificationsService } from './services/notifications/notifications.ser
     MatListModule,
     MatCardModule,
     MatChipsModule,
+    MatTooltipModule,
+    MatDialogModule,
 
     RouterModule.forRoot(routes),
     FormsModule
+  ],
+  entryComponents: [
+    SolveDialogComponent
   ],
   providers: [
     StreetViewService,
