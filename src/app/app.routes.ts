@@ -10,7 +10,7 @@ import { PlayPuzzleViewComponent } from './views/play-puzzle-view/play-puzzle-vi
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeViewComponent },
   { path: 'create', component: CreatePuzzleViewComponent },
-  { path: 'play', component: PlayPuzzleViewComponent },
+  { path: 'play/:id', component: PlayPuzzleViewComponent },
   { path: 'login', component: LoginViewComponent },
   { path: 'login/email', component: LoginEmailViewComponent },
   { path: 'register', component: RegisterViewComponent },

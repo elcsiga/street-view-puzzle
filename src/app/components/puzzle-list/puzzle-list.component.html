@@ -1,7 +1,9 @@
 <div *ngFor="let puzzle of puzzles | async" class="puzzle-card">
-  <img [src] = "getStaticImage(puzzle)" />
-  <div>
-    {{puzzle.title}}
-  </div>
+  <a routerLink="/play/{{puzzle.id}}">
+    <img [src] = "getStaticImage(puzzle)" />
+    <div>
+      {{puzzle.title}}
+    </div>
+  </a>
 </div>
 

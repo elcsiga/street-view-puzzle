@@ -16,7 +16,15 @@ export class PuzzleListComponent implements OnInit {
     db: AngularFirestore,
     private streetViewService: StreetViewService
   ) {
-    this.puzzles = db.collection('puzzles').valueChanges() as Observable<Puzzle[]>;
+
+    this.puzzles = db.collection('puzzles').snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Puzzle;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    });
+
   }
 
   ngOnInit() {

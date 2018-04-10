@@ -6,6 +6,7 @@ export interface Pos {
 }
 
 export interface Puzzle {
+  id?: string;
   title: string;
   tags: any;
   question: string;

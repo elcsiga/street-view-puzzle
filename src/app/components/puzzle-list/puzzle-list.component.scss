@@ -17,7 +17,7 @@ $puzzle-item-size: 170px;
     border-radius: $puzzle-item-size / 2;
   }
 
-  > div {
+  > a > div {
     opacity: 0;
     transition: all .3s;
 
