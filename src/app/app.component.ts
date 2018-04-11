@@ -1,10 +1,12 @@
 import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
+import {routerTransition} from './app.router.animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [ routerTransition ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
@@ -23,5 +25,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  getState(outlet) {
+    return outlet.activatedRouteData.state;
   }
 }
