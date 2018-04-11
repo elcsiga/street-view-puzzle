@@ -1,9 +1,19 @@
-<div *ngFor="let puzzle of puzzles | async" class="puzzle-card">
-  <a routerLink="/play/{{puzzle.id}}">
-    <img [src] = "getStaticImage(puzzle)" />
-    <div>
-      {{puzzle.title}}
-    </div>
-  </a>
-</div>
 
+<ul>
+  <li *ngFor="let puzzle of puzzles | async"
+    (click) = "startPuzzle(puzzle)">
+      <img [src] = "getStaticImage(puzzle)" />
+      <div class="bar">
+        <div>
+          <span class="title">
+            {{puzzle.title}}
+          </span>
+
+          <span class="icon">
+            <mat-icon>check_circle</mat-icon>
+          </span>
+
+        </div>
+      </div>
+  </li>
+</ul>
