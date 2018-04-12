@@ -1,21 +1,24 @@
-<mat-toolbar class="mat-elevation-z6" color="primary">
+<mat-toolbar>
 
   <button mat-icon-button (click)="menuClicked.emit()"><mat-icon>menu</mat-icon></button>
 
-  <span (click)="router.navigate(['/'])"> Street View Puzzle </span>
-
-  <span class="spacer"></span>
-  <span *ngIf="afAuth.authState | async as user; else showLogin">
-    {{ user.displayName || user.email }}
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>person</mat-icon>
-    </button>
-    <mat-menu #menu>
-      <button mat-menu-item (click)="logout()" >Kilépés</button>
-    </mat-menu>
+  <span class="title" (click)="router.navigate(['/'])">
+    Street View Puzzle
   </span>
+  <span class="spacer"></span>
+  <span class="username" *ngIf="afAuth.authState | async as user; else showLogin">
+      {{ user.displayName || user.email }}
+  </span>
+  <button mat-icon-button *ngIf="afAuth.authState | async" [matMenuTriggerFor]="menu">
+    <mat-icon>person</mat-icon>
+  </button>
+  <mat-menu #menu>
+    <button mat-menu-item (click)="router.navigate(['/profile'])" >Profile</button>
+    <button mat-menu-item (click)="logout()" >Logout</button>
+  </mat-menu>
+
   <ng-template #showLogin>
-    <button mat-raised-button color="accent" (click)="router.navigate(['/login'])">
+    <button mat-raised-button color="primary" (click)="router.navigate(['/login'])">
       Sign in
     </button>
 

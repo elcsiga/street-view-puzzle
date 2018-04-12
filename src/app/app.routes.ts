@@ -11,16 +11,29 @@ export const routes: Routes = [
   {
     path: '', pathMatch: 'full',
     component: HomeViewComponent,
-    data: {state: 'home'}
   },
   {
     path: 'create',
     component: CreatePuzzleViewComponent,
-    data: {state: 'create'}
   },
-  {path: 'play/:id', component: PlayPuzzleViewComponent},
-  {path: 'login', component: LoginViewComponent},
-  {path: 'login/email', component: LoginEmailViewComponent},
-  {path: 'register', component: RegisterViewComponent},
-  {path: '**', component: PageNotFoundViewComponent}
+  {
+    path: 'play/:id',
+    component: PlayPuzzleViewComponent
+  },
+  {
+    path: 'login',
+    component: LoginViewComponent
+  },
+  {
+    path: 'login/email',
+    component: LoginEmailViewComponent
+  },
+  {
+    path: 'register',
+    component: RegisterViewComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundViewComponent
+  }
 ];

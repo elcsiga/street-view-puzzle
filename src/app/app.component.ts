@@ -28,6 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getState(outlet) {
-    return outlet.activatedRouteData.state;
+    return outlet.activated ? outlet.activatedRoute.routeConfig.path : 'INITIAL';
   }
 }
