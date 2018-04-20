@@ -26,17 +26,17 @@ export class StreetviewPanoramaComponent implements OnInit, OnDestroy, OnChanges
   }
 
   private loadScript(src, callback) {
-    if (typeof window['google'] !== 'undefined') {
-      console.log('Script already loaded.');
+    if (typeof window['google'] === 'undefined') {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = src;
+      script.onload = () => callback();
+
+      const firstScriptOnPage = document.getElementsByTagName('script')[0];
+      firstScriptOnPage.parentNode.insertBefore(script, firstScriptOnPage);
+    } else {
       callback();
     }
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = src;
-    script.onload = () => callback();
-
-    const firstScriptOnPage = document.getElementsByTagName('script')[0];
-    firstScriptOnPage.parentNode.insertBefore(script, firstScriptOnPage);
   }
 
   ngOnInit() {
@@ -46,7 +46,6 @@ export class StreetviewPanoramaComponent implements OnInit, OnDestroy, OnChanges
     }
 
     this.loadScript(url, () => {
-      console.log('Script loaded.');
       this.streetView = new google.maps.StreetViewPanorama(
         this.gmapElement.nativeElement,
         this.panoramaOptions

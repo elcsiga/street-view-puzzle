@@ -37,6 +37,9 @@ import { LoginEmailViewComponent } from './views/login-email-view/login-email-vi
 import { RegisterViewComponent } from './views/register-view/register-view.component';
 import { NotificationsService } from './services/notifications/notifications.service';
 import { SolveDialogComponent } from './views/play-puzzle-view/solve-dialog/solve-dialog.component';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './app.state';
+import {CommonService} from './services/common/common.service';
 
 
 @NgModule({
@@ -80,7 +83,8 @@ import { SolveDialogComponent } from './views/play-puzzle-view/solve-dialog/solv
     MatDialogModule,
 
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot(reducers)
   ],
   entryComponents: [
     SolveDialogComponent
@@ -88,7 +92,8 @@ import { SolveDialogComponent } from './views/play-puzzle-view/solve-dialog/solv
   providers: [
     StreetViewService,
     LevenshteinService,
-    NotificationsService
+    NotificationsService,
+    CommonService
   ],
   bootstrap: [AppComponent]
 })

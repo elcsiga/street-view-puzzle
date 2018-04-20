@@ -12,13 +12,14 @@ export const routerTransition = trigger('routerTransition', [
 
     query(':leave', [
       style({opacity: 1}),
-      animate('.2s ease-in-out', style({opacity: 0}))
+      animate('.3s ease-in-out',
+        style({opacity: 0}))
     ], {optional: true}),
 
     query(':enter', [
       style({opacity: 0}),
-      animate('.2s ease-in-out', style({opacity: 1}))
+      animate('.3s ease-in-out',
+      style({opacity: 1}))
     ], {optional: true}),
-
   ])
 ]);

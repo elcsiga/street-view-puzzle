@@ -1,8 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
 import {Router} from '@angular/router';
-
+import {AppState, User} from '../../app.state';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-header',
@@ -13,16 +14,20 @@ export class HeaderComponent implements OnInit {
 
   @Output() menuClicked = new EventEmitter<void>();
 
+  public user$: Observable<User>;
+
   constructor(
-    public afAuth: AngularFireAuth,
+    public store: Store<AppState>,
+    public auth: AngularFireAuth,
     public router: Router
   ) {}
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.auth.auth.signOut();
   }
 
   ngOnInit() {
+    this.user$ =  this.store.select (state => state.user );
   }
 
 }

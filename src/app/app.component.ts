@@ -1,6 +1,11 @@
 import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {routerTransition} from './app.router.animations';
+import * as firebase from 'firebase';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {Subscription} from 'rxjs/Subscription';
+import {AppState, SetUserAction} from './app.state';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -9,25 +14,25 @@ import {routerTransition} from './app.router.animations';
   animations: [ routerTransition ],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  mobileQuery: MediaQueryList;
+  private userSubscription: Subscription;
 
-  private _mobileQueryListener: () => void;
-
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+  constructor(
+    private auth: AngularFireAuth,
+    private store: Store<AppState>
+  ) {
   }
 
   ngOnInit() {
-
+    this.userSubscription = this.auth.authState.subscribe(
+      authState => this.store.dispatch( new SetUserAction( authState ))
+    );
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.userSubscription.unsubscribe();
   }
 
   getState(outlet) {
-    return outlet.activated ? outlet.activatedRoute.routeConfig.path : 'INITIAL';
+    return 'same';
   }
 }

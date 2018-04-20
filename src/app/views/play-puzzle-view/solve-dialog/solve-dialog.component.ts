@@ -1,24 +1,32 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {Component, OnInit, Inject, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Puzzle} from '../../../types';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
 import {LevenshteinService} from '../../../services/levenshtein/levenshtein.service';
+import {AppState, User} from '../../../app.state';
+import {Store} from '@ngrx/store';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {CommonService} from '../../../services/common/common.service';
 
 @Component({
   selector: 'app-solve-dialog',
   templateUrl: './solve-dialog.component.html',
   styleUrls: ['./solve-dialog.component.scss']
 })
-export class SolveDialogComponent implements OnInit {
+export class SolveDialogComponent implements OnInit, OnDestroy {
 
   solvedAnswer = null;
+  puzzleSolvingInProgress = false;
   answer: string;
 
   constructor(
     public dialogRef: MatDialogRef<SolveDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Puzzle,
     private notificationsService: NotificationsService,
-    private levenshteinService: LevenshteinService
+    private levenshteinService: LevenshteinService,
+    private store: Store<AppState>,
+    private db: AngularFirestore,
+    private commonService: CommonService
   ) { }
 
   onNoClick(): void {
@@ -26,6 +34,8 @@ export class SolveDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  ngOnDestroy() {
   }
 
   onSolve() {
@@ -47,6 +57,23 @@ export class SolveDialogComponent implements OnInit {
 
       if (result.distance === 0) {
         this.solvedAnswer = result.answer;
+
+        this.puzzleSolvingInProgress = true;
+
+        console.log(this.data);
+        this.db.collection('solvings').add({
+          puzzleId: this.data.id,
+          userId: this.commonService.getUserId()
+        })
+          .then( solvingRef => {
+            this.puzzleSolvingInProgress = false;
+            this.notificationsService.info('Puzzle successfully solved');
+            // this.router.navigate(['/']);
+          })
+          .catch( error => {
+            this.puzzleSolvingInProgress = false;
+            this.notificationsService.error('Error while solving puzzle.');
+          });
       } else {
         const feedbacks = [
           'Forró, forró!',
@@ -57,7 +84,7 @@ export class SolveDialogComponent implements OnInit {
           'Nem az igazi...',
           'Hideg, hideg...'
         ];
-        const feedback = feedbacks[Math.min(result.distance,feedbacks.length) - 1];
+        const feedback = feedbacks[Math.min(result.distance, feedbacks.length) - 1];
         this.notificationsService.error(feedback);
       }
     }

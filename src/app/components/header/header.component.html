@@ -6,10 +6,10 @@
     Street View Puzzle
   </span>
   <span class="spacer"></span>
-  <span class="username" *ngIf="afAuth.authState | async as user; else showLogin">
+  <span class="username" *ngIf="user$ | async as user; else showLogin">
       {{ user.displayName || user.email }}
   </span>
-  <button mat-icon-button *ngIf="afAuth.authState | async" [matMenuTriggerFor]="menu">
+  <button mat-icon-button *ngIf="user$ | async" [matMenuTriggerFor]="menu">
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #menu>
