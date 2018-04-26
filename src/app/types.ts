@@ -5,8 +5,13 @@ export interface Pos {
   pitch: number;
 }
 
+
 export interface Puzzle {
-  id?: string;
+  id: string;
+  data: PuzzleData;
+}
+
+export interface PuzzleData {
   title: string;
   tags: any;
   question: string;
@@ -14,7 +19,13 @@ export interface Puzzle {
   pos: Pos;
 }
 
-export interface extendedStreetViewPanoramaOptions extends google.maps.StreetViewPanoramaOptions {
+export interface Solving {
+  puzzleId: string;
+  userId: string;
+  solvedAnswer: string;
+}
+
+export interface ExtendedStreetViewPanoramaOptions extends google.maps.StreetViewPanoramaOptions {
   showRoadLabels?: boolean;
 }
 

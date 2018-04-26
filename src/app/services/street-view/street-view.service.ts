@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Pos, Puzzle } from '../../types';
+import { Pos, PuzzleData } from '../../types';
 import { } from '@types/googlemaps';
 import { googleStreetViewImageApiKey } from '../../../environments/config';
 
@@ -13,7 +13,7 @@ export class StreetViewService {
       + `?size=480x480&location=${lat},${lng}&heading=${heading}&pitch=${pitch}&key=${apiKey}`;
   }
 
-  getStaticImageUrlOf(puzzle: Puzzle) {
+  getStaticImageUrlOf(puzzle: PuzzleData) {
     return this.getStaticImageUrl(
       puzzle.pos.lat,
       puzzle.pos.lng,

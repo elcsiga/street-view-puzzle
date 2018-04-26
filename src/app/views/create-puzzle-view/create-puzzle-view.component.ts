@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit} from '@angular/core';
-import { extendedStreetViewPanoramaOptions, Puzzle } from '../../types';
+import { ExtendedStreetViewPanoramaOptions, PuzzleData } from '../../types';
 import { googleMapsApiKey } from '../../../environments/config';
 import { } from '@types/googlemaps';
 import { StreetViewService } from '../../services/street-view/street-view.service';
@@ -28,7 +28,7 @@ export class CreatePuzzleViewComponent implements OnInit, OnDestroy, AfterViewIn
 
   private sub: Subscription;
 
-  puzzle: Puzzle = {
+  puzzle: PuzzleData = {
     title: '',
     tags: [],
     question: '',
@@ -43,7 +43,7 @@ export class CreatePuzzleViewComponent implements OnInit, OnDestroy, AfterViewIn
 
   @ViewChild('address') addressInput: ElementRef;
 
-  panoramaOptions: extendedStreetViewPanoramaOptions = {
+  panoramaOptions: ExtendedStreetViewPanoramaOptions = {
     position: { lat: 42.345573, lng: -71.098326 },
     pov: { heading: 0, pitch: 0 },
     disableDefaultUI: true,
@@ -130,7 +130,7 @@ export class CreatePuzzleViewComponent implements OnInit, OnDestroy, AfterViewIn
     this.db.collection('puzzles').add( this.puzzle )
       .then( puuzzleRef => {
         this.puzzleCreationInProgress = false;
-        this.notificationsService.info('Puzzle successfully created');
+        this.notificationsService.info('PuzzleData successfully created');
         this.router.navigate(['/']);
       })
       .catch( error => {

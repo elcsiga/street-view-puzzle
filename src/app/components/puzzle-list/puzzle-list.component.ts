@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {AngularFirestore} from "angularfire2/firestore";
-import {Puzzle} from "../../types";
+import {Observable} from 'rxjs/Observable';
+import {AngularFirestore} from 'angularfire2/firestore';
+import {Puzzle} from '../../types';
 import {StreetViewService} from '../../services/street-view/street-view.service';
 import {Router} from '@angular/router';
+import {CommonService} from '../../services/common/common.service';
 
 @Component({
   selector: 'app-puzzle-list',
@@ -16,16 +17,11 @@ export class PuzzleListComponent implements OnInit {
   constructor(
     private db: AngularFirestore,
     private streetViewService: StreetViewService,
+    private commonService: CommonService,
     private router: Router
   ) {
 
-    this.puzzles = this.db.collection('puzzles').snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as Puzzle;
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      });
-    });
+    this.puzzles = this.db.collection('puzzles').snapshotChanges().map( this.commonService.mapActionsToPuzzles );
 
   }
 
@@ -33,7 +29,7 @@ export class PuzzleListComponent implements OnInit {
   }
 
   getStaticImage(puzzle: Puzzle) {
-    return this.streetViewService.getStaticImageUrlOf(puzzle);
+    return this.streetViewService.getStaticImageUrlOf(puzzle.data);
   }
 
   startPuzzle(puzzle: Puzzle) {

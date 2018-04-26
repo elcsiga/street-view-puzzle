@@ -1,6 +1,6 @@
 import {Component, OnInit, Inject, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Puzzle} from '../../../types';
+import {PuzzleData} from '../../../types';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
 import {LevenshteinService} from '../../../services/levenshtein/levenshtein.service';
 import {AppState, User} from '../../../app.state';
@@ -21,7 +21,7 @@ export class SolveDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<SolveDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Puzzle,
+    @Inject(MAT_DIALOG_DATA) public data: PuzzleData,
     private notificationsService: NotificationsService,
     private levenshteinService: LevenshteinService,
     private store: Store<AppState>,
@@ -67,7 +67,7 @@ export class SolveDialogComponent implements OnInit, OnDestroy {
         })
           .then( solvingRef => {
             this.puzzleSolvingInProgress = false;
-            this.notificationsService.info('Puzzle successfully solved');
+            this.notificationsService.info('PuzzleData successfully solved');
             // this.router.navigate(['/']);
           })
           .catch( error => {

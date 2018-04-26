@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { extendedStreetViewPanoramaOptions, Puzzle } from '../../types';
+import { ExtendedStreetViewPanoramaOptions, PuzzleData } from '../../types';
 import { googleMapsApiKey } from '../../../environments/config';
 import 'rxjs/add/operator/take';
 import {MatDialog} from '@angular/material';
@@ -15,8 +15,8 @@ import {SolveDialogComponent} from './solve-dialog/solve-dialog.component';
 })
 export class PlayPuzzleViewComponent implements OnInit, OnDestroy {
 
-  puzzle$: Observable<Puzzle>;
-  panoramaOptions: extendedStreetViewPanoramaOptions;
+  puzzle$: Observable<PuzzleData>;
+  panoramaOptions: ExtendedStreetViewPanoramaOptions;
   apiKey = googleMapsApiKey;
 
   constructor(
@@ -27,7 +27,8 @@ export class PlayPuzzleViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.puzzle$ = this.route.params
-      .switchMap( params => this.db.doc<Puzzle>(`puzzles/${params.id}`).valueChanges());
+      .switchMap( params => this.db.doc<PuzzleData>(`puzzles/${params.id}`).valueChanges());
+
     this.puzzle$.take(1).subscribe( puzzle => {
       this.panoramaOptions = {
         position: {
@@ -44,7 +45,7 @@ export class PlayPuzzleViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  openDialog(puzzle: Puzzle): void {
+  openDialog(puzzle: PuzzleData): void {
     const dialogRef = this.dialog.open(SolveDialogComponent, {
       width: '250px',
       data: puzzle
