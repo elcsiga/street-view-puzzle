@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content *ngIf="!solvedAnswer">
-  <p>{{data.question}}</p>
+  <p>{{data.data.question}}</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="answer">
+    <input cdkFocusInitial matInput [(ngModel)]="answer">
   </mat-form-field>
 </div>
 <div mat-dialog-actions *ngIf="!solvedAnswer">
@@ -10,13 +10,12 @@
   <button mat-raised-button
           color="primary"
           [disabled]="!answer?.length"
-          (click) = "onSolve()"
-          cdkFocusInitial>Solve</button>
+          (click) = "onSolve()">Solve</button>
 </div>
 
 <div  mat-dialog-content *ngIf="solvedAnswer">
   <p>
-    {{data.question}}
+    {{data.data.question}}
     <br />
     <b>{{solvedAnswer}}</b>
   </p>

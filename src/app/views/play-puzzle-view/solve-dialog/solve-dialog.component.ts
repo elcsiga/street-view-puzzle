@@ -1,6 +1,6 @@
 import {Component, OnInit, Inject, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {PuzzleData} from '../../../types';
+import {Puzzle, PuzzleData, Solving} from '../../../types';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
 import {LevenshteinService} from '../../../services/levenshtein/levenshtein.service';
 import {AppState, User} from '../../../app.state';
@@ -21,7 +21,7 @@ export class SolveDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<SolveDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: PuzzleData,
+    @Inject(MAT_DIALOG_DATA) public data: Puzzle,
     private notificationsService: NotificationsService,
     private levenshteinService: LevenshteinService,
     private store: Store<AppState>,
@@ -43,7 +43,7 @@ export class SolveDialogComponent implements OnInit, OnDestroy {
       const COMPARABLE = s => s.trim().toLowerCase();
       const comparableAnswer = COMPARABLE(this.answer);
 
-      const result = this.data.answers
+      const result = this.data.data.answers
         .reduce((r, a) => {
           const d = this.levenshteinService.levenshteinDistance(COMPARABLE(a), comparableAnswer);
           return (d < r.distance) ? {
@@ -60,11 +60,12 @@ export class SolveDialogComponent implements OnInit, OnDestroy {
 
         this.puzzleSolvingInProgress = true;
 
-        console.log(this.data);
-        this.db.collection('solvings').add({
+        const solving: Solving = {
           puzzleId: this.data.id,
-          userId: this.commonService.getUserId()
-        })
+          userId: this.commonService.getUserId(),
+          solvedAnswer: this.solvedAnswer
+        };
+        this.db.collection<Solving>('solvings').add(solving)
           .then( solvingRef => {
             this.puzzleSolvingInProgress = false;
             this.notificationsService.info('PuzzleData successfully solved');

@@ -13,13 +13,13 @@ export class CommonService {
   getUserId(): string {
     let user: User;
     this.store.select( state => state.user).take(1)
-      .subscribe( u => user = u );
+      .subscribe( u => user = u);
     return user ? user.uid : null;
   }
 
-  mapActionsToPuzzles( actions: DocumentChangeAction[]): Puzzle[] {
+  mapActionsToPuzzles = (actions: DocumentChangeAction[]): Puzzle[] => {
     return actions.map( this.mapActionToPuzzle);
-  }
+  };
 
   mapActionToPuzzle( action: DocumentChangeAction): Puzzle {
     const data = action.payload.doc.data() as PuzzleData;
