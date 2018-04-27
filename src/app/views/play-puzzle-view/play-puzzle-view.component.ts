@@ -27,7 +27,8 @@ interface PlayPuzzleViewModel {
 })
 export class PlayPuzzleViewComponent implements OnInit, OnDestroy {
 
-  model$: Observable<PlayPuzzleViewModel>;
+  puzzle$: Observable<Puzzle>;
+  solvings$: Observable<Solving[]>;
   panoramaOptions: ExtendedStreetViewPanoramaOptions;
   apiKey = googleMapsApiKey;
 
@@ -40,36 +41,31 @@ export class PlayPuzzleViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.model$ = Observable.combineLatest(
+
+    this.puzzle$ = this.route.params
+      .switchMap( params => this.db.doc<PuzzleData>(`puzzles/${params.id}`)
+          .valueChanges()
+          .map(data => ({id: params.id, data}))
+      );
+
+    this.solvings$ = Observable.combineLatest(
       this.route.params,
       this.store.select( state => state.user)
     )
-      .map(results => {
+      .switchMap( results => {
         const [params, user] = results;
-        return {
-          id: params.id,
-          userId: user ? user.uid : null
-        };
-      })
-
-      .switchMap( params => Observable.combineLatest(
-        this.db.doc<PuzzleData>(`puzzles/${params.id}`).valueChanges()
-          .map(data => ({id: params.id, data})),
-        this.db.collection<Solving>('solvings', ref => ref
-          .where('userId', '==', params.userId)
-          .where('puzzleId', '==', params.id)
-        ).valueChanges()
-      ))
-      .map(results => {
-        const [puzzle, solvings] = results;
-        return {
-          puzzle,
-          solvings
-        };
+        if (user) {
+          return this.db.collection<Solving>('solvings', ref => ref
+            .where('userId', '==', user.uid)
+            .where('puzzleId', '==', params.id)
+          ).valueChanges();
+        } else {
+          return Observable.of([]);
+        }
       });
 
-    this.model$.take(1)
-      .map( model => model.puzzle.data.pos)
+    this.puzzle$.take(1)
+      .map( puzzle => puzzle.data.pos)
       .subscribe( pos => {
       this.panoramaOptions = {
         position: {

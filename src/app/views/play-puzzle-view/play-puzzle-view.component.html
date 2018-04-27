@@ -1,16 +1,16 @@
 
-<div class="pano" *ngIf="model$ | async as model">
+<div class="pano" *ngIf="puzzle$ | async as puzzle">
   <app-streetview-panorama
     [apiKey]="apiKey"
     [panoramaOptions]="panoramaOptions"
 
   ></app-streetview-panorama>
 
-  <div class="title">{{model.puzzle.data.title}} {{model | json}} </div>
+  <div class="title">{{puzzle.data.title}} {{solvings$ | async | json}} </div>
 
   <div class="question">
-    {{model.puzzle.data.question}}
-    <button mat-fab matTooltip="Solve&nbsp;puzzle" (click) = "openDialog(model.puzzle)">
+    {{puzzle.data.question}}
+    <button mat-fab matTooltip="Solve&nbsp;puzzle" (click) = "openDialog(puzzle)">
       <mat-icon aria-label="Solve puzzle">
         done
       </mat-icon>
